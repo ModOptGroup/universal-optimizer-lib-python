@@ -12,8 +12,8 @@ from io import TextIOWrapper
 
 from uo.utils.logger import logger
 
-from uo.target_problem.target_problem import TargetProblem
-from uo.target_solution.target_solution import TargetSolution
+from uo.problem.problem import Problem
+from uo.solution.solution import Solution
 
 from uo.algorithm.output_control import OutputControl
 from uo.algorithm.metaheuristic.finish_control import FinishControl
@@ -28,8 +28,8 @@ class SingleSolutionMetaheuristicVoid(SingleSolutionMetaheuristic):
             random_seed:int, 
             additional_statistics_control:AdditionalStatisticsControl,
             output_control:OutputControl, 
-            target_problem:TargetProblem,
-            solution_template:TargetSolution   
+            problem:Problem,
+            solution_template:Solution   
     )->None:
         super().__init__(
                 name=name, 
@@ -37,7 +37,7 @@ class SingleSolutionMetaheuristicVoid(SingleSolutionMetaheuristic):
                 random_seed=random_seed,
                 additional_statistics_control=additional_statistics_control,
                 output_control=output_control, 
-                target_problem=target_problem,
+                problem=problem,
                 solution_template=solution_template
         )
 

@@ -5,7 +5,7 @@ import unittest.mock as mocker
 
 from linopy import Model
 
-from uo.target_problem.target_problem_void import TargetProblemVoid
+from uo.problem.problem_void import ProblemVoid
 
 from uo.algorithm.output_control import OutputControl
 
@@ -13,9 +13,9 @@ from uo.algorithm.output_control import OutputControl
 from opt.single_objective.comb.ones_count_max_problem.ones_count_max_problem import OnesCountMaxProblem
 from opt.single_objective.comb.ones_count_max_problem.ones_count_max_problem_ilp_linopy import OnesCountMaxProblemIntegerLinearProgrammingSolver
 from opt.single_objective.comb.ones_count_max_problem.ones_count_max_problem_ilp_linopy import OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters
-from uo.target_solution.target_solution import TargetSolution
-from uo.target_solution.target_solution_void import TargetSolutionVoid
-from uo.target_solution.target_solution_void_object_str import TargetSolutionVoidObjectStr
+from uo.solution.solution import Solution
+from uo.solution.solution_void import SolutionVoid
+from uo.solution.solution_void_object_str import SolutionVoidObjectStr
 
 class TestOnesCountMaxProblemIlpLinopy(unittest.TestCase):
     
@@ -30,7 +30,7 @@ class TestOnesCountMaxProblemIlpLinopy(unittest.TestCase):
             output_control=self.output_control,
             problem=self.problem_to_solve
         )
-        self.optimizer.optimize()
+        self.bs = self.optimizer.optimize()
     
     def test_best_solution_after_optimization_should_be_optimal(self):
         result = ''
@@ -41,17 +41,17 @@ class TestOnesCountMaxProblemIlpLinopy(unittest.TestCase):
         self.assertEqual(expected, result)
 
 
-    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with valid OutputControl and TargetProblem parameters should return an instance of the class with the same parameters
+    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with valid OutputControl and Problem parameters should return an instance of the class with the same parameters
     def test_valid_parameters(self):
         # Arrange
         output_control = OutputControl()
-        target_problem = TargetProblemVoid('problem_name', False)
+        problem = ProblemVoid('problem_name', False)
         # Act
-        construction_params = OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, target_problem)
+        construction_params = OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, problem)
         # Assert
         self.assertIsInstance(construction_params, OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters)
         self.assertEqual(construction_params.output_control, output_control)
-        self.assertEqual(construction_params.target_problem, target_problem)
+        self.assertEqual(construction_params.problem, problem)
 
     # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with default parameters should return an instance of the class with None parameters
     def test_default_parameters(self):
@@ -64,37 +64,37 @@ class TestOnesCountMaxProblemIlpLinopy(unittest.TestCase):
     def test_invalid_output_control(self):
         # Arrange
         output_control = "invalid_output_control"
-        target_problem = TargetProblemVoid('problem_name', False)
+        problem = ProblemVoid('problem_name', False)
         # Act & Assert
         with self.assertRaises(TypeError):
-            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, target_problem)
+            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, problem)
 
-    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with invalid TargetProblem parameter should raise a TypeError
-    def test_invalid_target_problem(self):
+    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with invalid Problem parameter should raise a TypeError
+    def test_invalid_problem(self):
         # Arrange
         output_control = OutputControl()
-        target_problem = "invalid_target_problem"
+        problem = "invalid_problem"
         # Act & Assert
         with self.assertRaises(TypeError):
-            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, target_problem)
+            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, problem)
 
-    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with OutputControl and TargetProblem parameters of different types should raise a TypeError
+    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with OutputControl and Problem parameters of different types should raise a TypeError
     def test_different_types(self):
         # Arrange
         output_control = OutputControl()
-        target_problem = TargetSolutionVoid(42, None, None, False)
+        problem = SolutionVoid(42, None, None, False)
         # Act & Assert
         with self.assertRaises(TypeError):
-            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, target_problem)
+            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, problem)
 
-    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with OutputControl and TargetProblem parameters of the same type but different from OutputControl and TargetProblem should raise a TypeError
+    # creating an instance of OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters with OutputControl and Problem parameters of the same type but different from OutputControl and Problem should raise a TypeError
     def test_same_types_different_classes(self):
         # Arrange
         output_control = OutputControl()
-        target_problem = TargetSolutionVoidObjectStr()
+        problem = SolutionVoidObjectStr()
         # Act & Assert
         with self.assertRaises(TypeError):
-            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, target_problem)
+            OnesCountMaxProblemIntegerLinearProgrammingSolverConstructionParameters(output_control, problem)
 
     def tearDown(self):
         return
@@ -117,7 +117,7 @@ class TestOptimize(unittest.TestCase):
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         # Act
         try:
-            solver.optimize()
+            bs = solver.optimize()
         except Exception as e:
             self.fail(f"Unexpected exception occurred: {e}")
         # Assert
@@ -130,7 +130,7 @@ class TestOptimize(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         # Act
-        solver.optimize()
+        bs = solver.optimize()
         # Assert
         self.assertIsInstance(solver.model, Model)
         self.assertGreater(len(solver.model.variables), 0)
@@ -142,7 +142,7 @@ class TestOptimize(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         # Act
-        solver.optimize()
+        bs = solver.optimize()
         # Assert
         objective = solver.model.objective
         self.assertIsNotNone(objective)
@@ -156,13 +156,13 @@ class TestOptimize(unittest.TestCase):
         # Act & Assert
         with self.assertRaises(TypeError):
             solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
-            solver.optimize()
+            bs = solver.optimize()
         output_control = OutputControl()
         problem = "invalid_problem"
         # Act & Assert
         with self.assertRaises(TypeError):
             solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
-            solver.optimize()
+            bs = solver.optimize()
 
     # The method solves the model and sets the best solution to the solution of the model.
     def test_model_solved_and_best_solution_set(self):
@@ -171,8 +171,9 @@ class TestOptimize(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         # Act
-        solver.optimize()
+        bs = solver.optimize()
         # Assert
+        self.assertIsNotNone(bs)
         self.assertIsNotNone(solver.best_solution)
         
 
@@ -185,7 +186,7 @@ class TestStringRep(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         solver.execution_started = datetime.now()
-        self.best_solution_mock = mocker.MagicMock(spec=TargetSolution)
+        self.best_solution_mock = mocker.MagicMock(spec=Solution)
         self.best_solution_mock.copy = mocker.Mock(return_value=self.best_solution_mock)
         self.best_solution_mock.string_rep = mocker.Mock(return_value="solution mock")
         solver.best_solution = self.best_solution_mock
@@ -201,7 +202,7 @@ class TestStringRep(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         solver.execution_started = datetime.now()
-        self.best_solution_mock = mocker.MagicMock(spec=TargetSolution)
+        self.best_solution_mock = mocker.MagicMock(spec=Solution)
         self.best_solution_mock.copy = mocker.Mock(return_value=self.best_solution_mock)
         self.best_solution_mock.string_rep = mocker.Mock(return_value="solution mock")
         solver.best_solution = self.best_solution_mock    
@@ -210,7 +211,7 @@ class TestStringRep(unittest.TestCase):
         # Assert
         self.assertIn("OnesCountMaxProblemIntegerLinearProgrammingSolver", result)
         self.assertIn("output_control", result)
-        self.assertIn("target_problem", result)
+        self.assertIn("problem", result)
 
     # The string representation is properly formatted with indentation and grouping symbols
     def test_properly_formatted_with_indentation_and_grouping_symbols(self):
@@ -219,7 +220,7 @@ class TestStringRep(unittest.TestCase):
         problem = OnesCountMaxProblem(dim=5)
         solver = OnesCountMaxProblemIntegerLinearProgrammingSolver(output_control, problem)
         solver.execution_started = datetime.now()
-        self.best_solution_mock = mocker.MagicMock(spec=TargetSolution)
+        self.best_solution_mock = mocker.MagicMock(spec=Solution)
         self.best_solution_mock.copy = mocker.Mock(return_value=self.best_solution_mock)
         self.best_solution_mock.string_rep = mocker.Mock(return_value="solution mock")
         solver.best_solution = self.best_solution_mock    
@@ -227,6 +228,6 @@ class TestStringRep(unittest.TestCase):
         result = solver.string_rep("|", indentation=2, indentation_symbol="-", group_start="[", group_end="]")    
         # Assert
         self.assertIn( "output_control", result)
-        self.assertIn( "target_problem", result)
+        self.assertIn( "problem", result)
 
  

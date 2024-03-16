@@ -8,16 +8,16 @@ from datetime import datetime
 
 from uo.utils.logger import logger
 from uo.algorithm.output_control import OutputControl
-from uo.target_problem.target_problem import TargetProblem
-from uo.target_solution.target_solution import TargetSolution
+from uo.problem.problem import Problem
+from uo.solution.solution import Solution
 
 from uo.algorithm.optimizer import Optimizer
 from uo.algorithm.algorithm import Algorithm
 
 class AlgorithmVoid(Algorithm):
     def __init__(self, name:str, output_control:OutputControl,
-            target_problem:TargetProblem)->None:
-        super().__init__(name, output_control, target_problem)
+            problem:Problem)->None:
+        super().__init__(name, output_control, problem)
 
     def __copy__(self):
         return super().__copy__()
@@ -28,8 +28,8 @@ class AlgorithmVoid(Algorithm):
     def init(self):
         return
 
-    def optimize(self):
-        return
+    def optimize(self)->Solution:
+        return None
         
     def __str__(self)->str:
         return super().__str__()

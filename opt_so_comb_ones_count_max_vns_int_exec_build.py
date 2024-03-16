@@ -3,9 +3,9 @@ from random import randint
 from random import choice
 from typing import Optional
 
-from uo.target_problem.target_problem import TargetProblem
-from uo.target_solution.quality_of_solution import QualityOfSolution
-from uo.target_solution.target_solution import TargetSolution
+from uo.problem.problem import Problem
+from uo.solution.quality_of_solution import QualityOfSolution
+from uo.solution.solution import Solution
 
 from uo.algorithm.algorithm import Algorithm
 from uo.algorithm.output_control import OutputControl
@@ -17,7 +17,7 @@ from uo.algorithm.metaheuristic.variable_neighborhood_search.vns_optimizer impor
 from uo.algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support import \
         ProblemSolutionVnsSupport
 
-class OnesCountMaxProblem2(TargetProblem):
+class OnesCountMaxProblem2(Problem):
 
     def __init__(self, dim:int)->None:
         if not isinstance(dim, int):
@@ -52,7 +52,7 @@ class OnesCountMaxProblem2(TargetProblem):
     def __format__(self, spec:str)->str:
         return ''
 
-class OnesCountMaxProblemBinaryIntSolution(TargetSolution[int,str]):
+class OnesCountMaxProblemBinaryIntSolution(Solution[int,str]):
     
     def __init__(self, random_seed:Optional[int]=None)->None:
         if not isinstance(random_seed, int) and random_seed is not None:
@@ -69,7 +69,7 @@ class OnesCountMaxProblemBinaryIntSolution(TargetSolution[int,str]):
     def copy(self):
         return self.__copy__()
         
-    def init_random(self, problem:TargetProblem)->None:
+    def init_random(self, problem:Problem)->None:
         if problem.dimension is None:
             raise ValueError("Problem dimension should not be None!")
         if problem.dimension <= 0:
@@ -79,7 +79,7 @@ class OnesCountMaxProblemBinaryIntSolution(TargetSolution[int,str]):
         self.representation = randint(0, 2^problem.dimension-1)
         self.representation = self.obtain_feasible_representation(problem)
 
-    def init_from(self, representation:int, problem:TargetProblem)->None:
+    def init_from(self, representation:int, problem:Problem)->None:
         if not isinstance(representation, int):
             raise TypeError('Parameter \'representation\' must have type \'int\'.')
         self.representation = representation
@@ -88,7 +88,7 @@ class OnesCountMaxProblemBinaryIntSolution(TargetSolution[int,str]):
         return bin(self.representation)
 
     def calculate_quality_directly(self, representation:int, 
-            problem:TargetProblem)->QualityOfSolution:
+            problem:Problem)->QualityOfSolution:
         ones_count = representation.bit_count()
         return QualityOfSolution(ones_count, None, ones_count, None, True)
 
@@ -102,7 +102,7 @@ class OnesCountMaxProblemBinaryIntSolution(TargetSolution[int,str]):
         result = (rep_1 ^ rep_2).bit_count()
         return result 
 
-    def argument(self, problem:TargetProblem)->str:
+    def argument(self, problem:Problem)->str:
         return bin(self.representation)
 
     def string_rep(self, delimiter:str='\n', indentation:int=0, indentation_symbol:str='   ', 
@@ -224,7 +224,7 @@ def main():
     vns_support:OnesCountMaxProblemBinaryIntSolutionVnsSupport = OnesCountMaxProblemBinaryIntSolutionVnsSupport()
     vns_construction_params:VnsOptimizerConstructionParameters = VnsOptimizerConstructionParameters()
     vns_construction_params.output_control = output_control
-    vns_construction_params.target_problem = problem_to_solve
+    vns_construction_params.problem = problem_to_solve
     vns_construction_params.solution_template = solution
     vns_construction_params.problem_solution_vns_support = vns_support
     vns_construction_params.finish_control = finish
@@ -234,11 +234,11 @@ def main():
     vns_construction_params.k_max = 3
     vns_construction_params.local_search_type = 'localSearchFirstImprovement'
     optimizer:VnsOptimizer = VnsOptimizer.from_construction_tuple(vns_construction_params)
-    optimizer.optimize()
-    print('Best solution representation: {}'.format(optimizer.best_solution.representation))            
-    print('Best solution code: {}'.format(optimizer.best_solution.string_representation()))            
-    print('Best solution objective:  {}'.format(optimizer.best_solution.objective_value))
-    print('Best solution fitness: {}'.format(optimizer.best_solution.fitness_value))
+    bs = optimizer.optimize()
+    print('Best solution representation: {}'.format(bs.representation))            
+    print('Best solution code: {}'.format(bs.string_representation()))            
+    print('Best solution objective:  {}'.format(bs.objective_value))
+    print('Best solution fitness: {}'.format(bs.fitness_value))
     print('Number of iterations: {}'.format(optimizer.iteration))            
     print('Number of evaluations: {}'.format(optimizer.evaluation))            
 

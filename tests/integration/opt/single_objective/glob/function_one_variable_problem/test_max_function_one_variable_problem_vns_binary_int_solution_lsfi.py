@@ -47,7 +47,7 @@ class TestMaxFunctionOneVariableMaxProblemBinaryIntSolutionLsfi(unittest.TestCas
         self.additional_statistics_control:AdditionalStatisticsControl = AdditionalStatisticsControl(keep='')
         self.vns_construction_params:VnsOptimizerConstructionParameters = VnsOptimizerConstructionParameters()
         self.vns_construction_params.output_control = self.output_control
-        self.vns_construction_params.target_problem = self.problem_to_solve
+        self.vns_construction_params.problem = self.problem_to_solve
         self.vns_construction_params.solution_template = self.solution
         self.vns_construction_params.problem_solution_vns_support = self.vns_support
         self.vns_construction_params.finish_control =self.finish_control
@@ -57,7 +57,7 @@ class TestMaxFunctionOneVariableMaxProblemBinaryIntSolutionLsfi(unittest.TestCas
         self.vns_construction_params.k_max = 3
         self.vns_construction_params.local_search_type = 'localSearchBestImprovement'
         self.optimizer:VnsOptimizer = VnsOptimizer.from_construction_tuple(self.vns_construction_params)
-        self.optimizer.optimize()
+        self.bs = self.optimizer.optimize()
     
     def test_best_solution_after_optimization_should_be_all_optimal(self):
         # Act

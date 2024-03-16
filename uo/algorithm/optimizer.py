@@ -15,8 +15,8 @@ from abc import ABCMeta, abstractmethod
 
 from uo.utils.logger import logger
 from uo.algorithm.output_control import OutputControl
-from uo.target_problem.target_problem import TargetProblem
-from uo.target_solution.target_solution import TargetSolution
+from uo.problem.problem import Problem
+from uo.solution.solution import Solution
 
     
 class Optimizer(metaclass=ABCMeta):
@@ -25,26 +25,26 @@ class Optimizer(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, name:str, output_control:OutputControl, target_problem:TargetProblem)->None:
+    def __init__(self, name:str, output_control:OutputControl, problem:Problem)->None:
         """
         Create new `Optimizer` instance
 
         :param str name: name of the optimizer
         :param `OutputControl` output_control: structure that controls output
-        :param `TargetProblem` target_problem: problem to be solved
+        :param `Problem` problem: problem to be solved
         """
         if not isinstance(name, str):
                 raise TypeError('Parameter \'name\' must be \'str\'.')
         if not isinstance(output_control, OutputControl):
                 raise TypeError('Parameter \'output_control\' must be \'OutputControl\'.')
-        if not isinstance(target_problem, TargetProblem):
-                raise TypeError('Parameter \'target_problem\' must be \'TargetProblem\'.')
+        if not isinstance(problem, Problem):
+                raise TypeError('Parameter \'problem\' must be \'Problem\'.')
         self.__name:str = name
         self.__output_control:OutputControl = output_control.copy()
-        self.__target_problem:TargetProblem = target_problem.copy()
+        self.__problem:Problem = problem.copy()
         self.__execution_started:Optional[datetime] = None
         self.__execution_ended:Optional[datetime] = None
-        self.__best_solution:Optional[TargetSolution] = None
+        self.__best_solution:Optional[Solution] = None
         self.__time_when_best_found:Optional[float] = None
 
     @abstractmethod
@@ -79,13 +79,13 @@ class Optimizer(metaclass=ABCMeta):
         return self.__name
 
     @property
-    def target_problem(self)->TargetProblem:
+    def problem(self)->Problem:
         """
         Property getter for the target problem to be solved
         
-        :return TargetProblem: target problem to be solved 
+        :return Problem: target problem to be solved 
         """
-        return self.__target_problem
+        return self.__problem
 
     @property
     def execution_started(self)->datetime:
@@ -138,24 +138,24 @@ class Optimizer(metaclass=ABCMeta):
         return self.__time_when_best_found
 
     @property
-    def best_solution(self)->TargetSolution:
+    def best_solution(self)->Solution:
         """
         Property getter for the best solution obtained during metaheuristic execution
         
         :return: best solution so far 
-        :rtype: TargetSolution
+        :rtype: Solution
         """
         return self.__best_solution
 
     @best_solution.setter
-    def best_solution(self, value:TargetSolution)->None:
+    def best_solution(self, value:Solution)->None:
         """
         Property setter for the best solution so far
         
-        :param TargetSolution value: best solution so far
+        :param Solution value: best solution so far
         """
-        if not isinstance(value, TargetSolution):
-            raise TypeError('Parameter \'best_solution\' must have type \'TargetSolution\'.')
+        if not isinstance(value, Solution):
+            raise TypeError('Parameter \'best_solution\' must have type \'Solution\'.')
         self.__best_solution = value.copy()
         self.__time_when_best_found = (datetime.now() - self.execution_started).total_seconds()
 
@@ -179,6 +179,27 @@ class Optimizer(metaclass=ABCMeta):
         if not isinstance(value, OutputControl):
             raise TypeError('Parameter \'output_control\' must have type \'OutputControl\'.')
         self.__output_control = value
+
+    def determine_fields_val(self, fields_def:list[str], fields_val:list[str])->list[str]:
+        """
+        Determines fields values upon fields definition and old values 
+
+        :param list[str] fields_def: list of field definitions
+        :param list[str] fields_val: list of old field values
+        :return: list of new field values
+        :rtype: list[str]
+        """ 
+        for i in range(len(fields_def)):
+            f_def = fields_def[i]
+            old_val = fields_val[i]
+            if f_def != "" and old_val == "XXX":
+                try:
+                    data = eval(f_def)
+                    s_data:str = str(data)
+                except:
+                    s_data:str = 'XXX'
+                fields_val[i] = s_data
+        return fields_val
 
     def write_output_headers_if_needed(self)->None:
         """
@@ -237,15 +258,16 @@ class Optimizer(metaclass=ABCMeta):
                         s_data:str = str(data)
                         if s_data == "step_name":
                             s_data = step_name_value
-                    except:
+                    except BaseException as e:
                         s_data:str = 'XXX'
+                        logger.debug(e)
                     output.write( s_data + '\t')
                     line += s_data + '\t'
             output.write('\n')
             logger.info(line)
 
     @abstractmethod
-    def optimize(self)->None:
+    def optimize(self)->Solution:
         """
         Method for optimization   
         """
@@ -279,7 +301,7 @@ class Optimizer(metaclass=ABCMeta):
         s += 'name=' + self.name + delimiter
         for _ in range(0, indentation):
             s += indentation_symbol  
-        s += 'target_problem=' + self.target_problem.string_rep(delimiter, indentation + 1, 
+        s += 'problem=' + self.problem.string_rep(delimiter, indentation + 1, 
                 indentation_symbol, '{', '}')  + delimiter 
         s += '__output_control=' + self.__output_control.string_rep(
                 delimiter, indentation + 1, indentation_symbol, '{', '}') + delimiter

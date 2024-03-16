@@ -197,7 +197,7 @@ def main():
             # solver construction parameters
             vns_construction_params:VnsOptimizerConstructionParameters = VnsOptimizerConstructionParameters()
             vns_construction_params.output_control = output_control
-            vns_construction_params.target_problem = problem
+            vns_construction_params.problem = problem
             vns_construction_params.solution_template = solution
             vns_construction_params.problem_solution_vns_support = vns_support
             vns_construction_params.finish_control = finish_control
@@ -210,11 +210,11 @@ def main():
                     from_variable_neighborhood_search(vns_construction_params)
         else:
             raise ValueError('Invalid optimization algorithm is chosen.')
-        solver.opt.optimize()
+        bs = solver.opt.optimize()
         logger.debug('Method -{}- search finished.'.format(parameters['algorithm'])) 
-        logger.info('Best solution code: {}'.format(solver.opt.best_solution.string_representation()))            
-        logger.info('Best solution objective: {}, fitness: {}'.format(solver.opt.best_solution.objective_value,
-                solver.opt.best_solution.fitness_value))
+        logger.info('Best solution code: {}'.format(bs.string_representation()))            
+        logger.info('Best solution objective: {}, fitness: {}'.format(bs.objective_value,
+                bs.fitness_value))
         logger.info('Number of iterations: {}, evaluations: {}'.format(solver.opt.iteration, 
                 solver.opt.evaluation))  
         logger.info('Execution: {} - {}'.format(solver.opt.execution_started, solver.opt.execution_ended))          

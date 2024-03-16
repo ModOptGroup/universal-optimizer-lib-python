@@ -23,8 +23,8 @@ from typing import Generic
 
 from uo.utils.logger import logger
 
-from uo.target_problem.target_problem import TargetProblem
-from uo.target_solution.target_solution import TargetSolution
+from uo.problem.problem import Problem
+from uo.solution.solution import Solution
 
 from uo.algorithm.output_control import OutputControl
 from uo.algorithm.metaheuristic.finish_control import FinishControl
@@ -44,8 +44,8 @@ class PopulationBasedMetaheuristic(Metaheuristic, metaclass=ABCMeta):
             random_seed:Optional[int], 
             additional_statistics_control:AdditionalStatisticsControl,
             output_control:OutputControl, 
-            target_problem:TargetProblem,
-            solution_template:Optional[TargetSolution]
+            problem:Problem,
+            solution_template:Optional[Solution]
     )->None:
         """
         Create new PopulationBasedMetaheuristic instance
@@ -56,8 +56,8 @@ class PopulationBasedMetaheuristic(Metaheuristic, metaclass=ABCMeta):
         :param `AdditionalStatisticsControl` additional_statistics_control: structure that controls additional 
         statistics obtained during population-based metaheuristic execution        
         :param `OutputControl` output_control: structure that controls output
-        :param `TargetProblem` target_problem: problem to be solved
-        :param `Optional[TargetSolution]` solution_template: template for solution of the problem
+        :param `Problem` problem: problem to be solved
+        :param `Optional[Solution]` solution_template: template for solution of the problem
         """
         if not isinstance(name, str):
                 raise TypeError('Parameter \'name\' must be \'str\'.')
@@ -69,18 +69,18 @@ class PopulationBasedMetaheuristic(Metaheuristic, metaclass=ABCMeta):
                 raise TypeError('Parameter \'additional_statistics_control\' must be \'AdditionalStatisticsControl\'.')
         if not isinstance(output_control, OutputControl):
                 raise TypeError('Parameter \'output_control\' must be \'OutputControl\'.')
-        if not isinstance(target_problem, TargetProblem):
-                raise TypeError('Parameter \'target_problem\' must be \'TargetProblem\'.')
-        if not isinstance(solution_template, TargetSolution) and solution_template is not None:
-                raise TypeError('Parameter \'solution_template\' must be \'TargetSolution\' or None.')
+        if not isinstance(problem, Problem):
+                raise TypeError('Parameter \'problem\' must be \'Problem\'.')
+        if not isinstance(solution_template, Solution) and solution_template is not None:
+                raise TypeError('Parameter \'solution_template\' must be \'Solution\' or None.')
         super().__init__(name=name, 
                 finish_control=finish_control,
                 random_seed=random_seed,
                 additional_statistics_control=additional_statistics_control,
                 output_control=output_control, 
-                target_problem=target_problem,
+                problem=problem,
                 solution_template=solution_template)
-        self.__current_population:Optional[list[TargetSolution]] =  None
+        self.__current_population:Optional[list[Solution]] =  None
 
     @abstractmethod
     def __copy__(self)->'PopulationBasedMetaheuristic':
@@ -104,24 +104,24 @@ class PopulationBasedMetaheuristic(Metaheuristic, metaclass=ABCMeta):
         return self.__copy__()
 
     @property
-    def current_population(self)->Optional[list[TargetSolution]]:
+    def current_population(self)->Optional[list[Solution]]:
         """
         Property getter for the population of solutions within population based metaheuristic execution
 
-        :return: list of the :class:`uo.target_solution.TargetSolution` class subtype -- current solutions of the problem 
-        :rtype: list[TargetSolution]        
+        :return: list of the :class:`uo.solution.Solution` class subtype -- current solutions of the problem 
+        :rtype: list[Solution]        
         """
         return self.__current_population
 
     @current_population.setter
-    def current_population(self, value:Optional[list[TargetSolution]])->None:
+    def current_population(self, value:Optional[list[Solution]])->None:
         """
         Property setter for the current population within single solution metaheuristic execution
         
-        :param Optional[list[TargetSolution]] value: the current population within single solution metaheuristic execution
+        :param Optional[list[Solution]] value: the current population within single solution metaheuristic execution
         """
-        if not isinstance(value, TargetSolution) and value is not None:
-            raise TypeError('Parameter \'current_population\' must have type \'list[TargetSolution]\' or be None.')
+        if not isinstance(value, Solution) and value is not None:
+            raise TypeError('Parameter \'current_population\' must have type \'list[Solution]\' or be None.')
         self.__current_population = value
 
     def string_rep(self, delimiter:str, indentation:int=0, indentation_symbol:str='', group_start:str ='{', 
