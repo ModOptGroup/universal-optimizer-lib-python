@@ -7,7 +7,7 @@ from uo.problem.problem import Problem
 from uo.algorithm.output_control import OutputControl
 from uo.algorithm.metaheuristic.finish_control import FinishControl
 from uo.algorithm.metaheuristic.simulated_annealing.sa_optimizer import SaOptimizer
-from uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood import SaNeighbourhood
+from uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood import SaNeighborhood
 from uo.algorithm.metaheuristic.simulated_annealing.sa_temperature import SaTemperature
 from uo.problem.problem_void_min_so import ProblemVoidMinSO
 from uo.solution.solution_void_representation_int import SolutionVoidInt
@@ -19,13 +19,13 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         # Act
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -41,12 +41,12 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 0, 0, False)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -61,12 +61,12 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = None
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 0, 0, False)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -76,17 +76,17 @@ class TestSaOptimizer(unittest.TestCase):
         )
         self.assertIsInstance(sa_optimizer, SaOptimizer)
 
-    def test_sa_optimizer_initialized_without_sa_neighbourhood(self):
+    def test_sa_optimizer_initialized_without_sa_neighborhood(self):
         finish_control = FinishControl()
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = None
-        sa_neighbourhood = None
+        sa_neighborhood = None
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood,
+                sa_neighborhood=sa_neighborhood,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,
@@ -100,12 +100,12 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = None
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature = None
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature,
                 finish_control=finish_control,
                 problem=problem,
@@ -119,12 +119,12 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = None
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -141,14 +141,14 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
-        type(sa_neighbourhood_stub).string_rep = mocker.Mock(return_value="")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
+        type(sa_neighborhood_stub).string_rep = mocker.Mock(return_value="")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         type(sa_temperature_stub).string_rep = mocker.Mock(return_value="")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -164,21 +164,21 @@ class TestSaOptimizer(unittest.TestCase):
         self.assertIn("|problem=", string_representation)
         self.assertIn("|current_solution=", string_representation)
         self.assertIn("|__sa_temperature=", string_representation)
-        self.assertIn("|__sa_neighbourhood=", string_representation)
+        self.assertIn("|__sa_neighborhood=", string_representation)
 
     def test_str(self):
         finish_control = FinishControl()
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
-        type(sa_neighbourhood_stub).string_rep = mocker.Mock(return_value="")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
+        type(sa_neighborhood_stub).string_rep = mocker.Mock(return_value="")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         type(sa_temperature_stub).string_rep = mocker.Mock(return_value="")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -194,21 +194,21 @@ class TestSaOptimizer(unittest.TestCase):
         self.assertIn("|problem=", string_representation)
         self.assertIn("|current_solution=", string_representation)
         self.assertIn("|__sa_temperature=", string_representation)
-        self.assertIn("|__sa_neighbourhood=", string_representation)
+        self.assertIn("|__sa_neighborhood=", string_representation)
 
     def test_repr_method(self):
         finish_control = FinishControl()
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
-        type(sa_neighbourhood_stub).string_rep = mocker.Mock(return_value="")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
+        type(sa_neighborhood_stub).string_rep = mocker.Mock(return_value="")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         type(sa_temperature_stub).string_rep = mocker.Mock(return_value="")
         sa_optimizer = SaOptimizer(
-            sa_neighbourhood=sa_neighbourhood_stub,
+            sa_neighborhood=sa_neighborhood_stub,
             sa_temperature=sa_temperature_stub,
             finish_control=finish_control,
             problem=problem,
@@ -225,20 +225,20 @@ class TestSaOptimizer(unittest.TestCase):
         self.assertIn("problem=", repr_string)
         self.assertIn("current_solution=", repr_string)
         self.assertIn("__sa_temperature=", repr_string)
-        self.assertIn("__sa_neighbourhood=", repr_string)
+        self.assertIn("__sa_neighborhood=", repr_string)
 
     def test_finish_control_type_error(self):
         finish_control = "not a FinishControl"
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,
@@ -252,13 +252,13 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = "not an int"
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,
@@ -273,13 +273,13 @@ class TestSaOptimizer(unittest.TestCase):
         additional_statistics_control = "not a valid type"
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,
@@ -294,13 +294,13 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = ProblemVoidMinSO("a problem", True)
         solution_template = "not a Solution"
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,
@@ -314,13 +314,13 @@ class TestSaOptimizer(unittest.TestCase):
         random_seed = 123
         problem = "not a Problem"
         solution_template = SolutionVoidInt(43, 43, 43, True)
-        sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
         with self.assertRaises(TypeError):
             SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=finish_control,
                 problem=problem,

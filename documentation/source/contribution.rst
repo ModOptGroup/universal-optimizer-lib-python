@@ -131,9 +131,9 @@ a. Contribution in the designing novel **optimization methods**:
         
         14. Structure, organization and main loop implementation - [MarkoLazarevic]_ 
 
-        15. Implementation of neighborhood structures with integer representation (in class :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaNeighbourhoodInt`, using `int` predefined type) - [MarkoLazarevic]_ 
+        15. Implementation of neighborhood structures with integer representation (in class :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaNeighborhoodInt`, using `int` predefined type) - [MarkoLazarevic]_ 
 
-        16. Implementation of neighborhood structures with binary representation (in class :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaNeighbourhoodBitArray`, using :class:`bitstring.BitArray` class) - [MarkoLazarevic]_
+        16. Implementation of neighborhood structures with binary representation (in class :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaNeighborhoodBitArray`, using :class:`bitstring.BitArray` class) - [MarkoLazarevic]_
 
         17. Implementation of temperature calculating methods (in classes: :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaTemperatureConst`, :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaTemperatureLinear`, :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaTemperatureExponential`) - [MarkoLazarevic]_ 
 

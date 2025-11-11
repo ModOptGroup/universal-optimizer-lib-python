@@ -1,5 +1,5 @@
 """ 
-The :mod:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood` module describes the class :class:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood.SaNeighbourhood`.
+The :mod:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood` module describes the class :class:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood.SaNeighborhood`.
 """
 
 from pathlib import Path
@@ -12,9 +12,9 @@ sys.path.append(directory.parent.parent.parent)
 from uo.solution.solution import Solution
 from abc import ABC, abstractmethod
 
-class SaNeighbourhood(ABC):
+class SaNeighborhood(ABC):
     """
-    Abstract base class for Simulated Annealing neighbourhood structures.
+    Abstract base class for Simulated Annealing neighborhood structures.
     Subclasses must implement the generate_neighbor method.
     """
     @abstractmethod

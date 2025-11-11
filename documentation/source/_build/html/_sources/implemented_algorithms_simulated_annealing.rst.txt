@@ -29,7 +29,7 @@ Implementation notes
 
 Implementation of this optimization method is given within the class :ref:`SaOptimizer<py_sa_optimizer>`.
 
-- **Neighborhoods**: The neighborhood structure is defined by subclasses of :class:`SaNeighbourhood`, such as :class:`SaNeighbourhoodInt` for integer-encoded solutions and :class:`SaNeighbourhoodBitArray` for bit array-encoded solutions.
+- **Neighborhoods**: The neighborhood structure is defined by subclasses of :class:`SaNeighborhood`, such as :class:`SaNeighborhoodInt` for integer-encoded solutions and :class:`SaNeighborhoodBitArray` for bit array-encoded solutions.
 - **Temperature Schedules**: Several temperature schedules are available, including constant, linear, and exponential decay, implemented in classes such as :class:`SaTemperatureConst`, :class:`SaTemperatureLinear`, and :class:`SaTemperatureExponential`.
 - **Extensibility**: You can implement custom neighborhoods or temperature schedules by subclassing the appropriate base classes.
 - **Usage**: To use the SA optimizer, construct an instance of :class:`SaOptimizer` with the desired neighborhood, temperature schedule, problem, and other parameters.

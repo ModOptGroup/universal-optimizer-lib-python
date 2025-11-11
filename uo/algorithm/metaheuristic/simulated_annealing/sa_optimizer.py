@@ -27,7 +27,7 @@ from uo.algorithm.metaheuristic.simulated_annealing.sa_temperature import SaTemp
 
 from uo.algorithm.metaheuristic.single_solution_metaheuristic import SingleSolutionMetaheuristic
 
-from uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood import SaNeighbourhood
+from uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood import SaNeighborhood
 
 import random
 import math
@@ -38,7 +38,7 @@ class SaOptimizerConstructionParameters:
         Instance of the class :class:`~uo.algorithm.metaheuristic.simulated_annealing_constructor_parameters.
         SaOptimizerConstructionParameters` represents constructor parameters for SA algorithm.
     """
-    sa_neighbourhood: SaNeighbourhood = None
+    sa_neighborhood: SaNeighborhood = None
     sa_temperature: SaTemperature = None
     finish_control: Optional[FinishControl] = None
     problem: Problem = None
@@ -53,7 +53,7 @@ class SaOptimizer(SingleSolutionMetaheuristic):
     :ref:`Algorithm_Simulated_Annealing` optimization algorithm.
     """
     def __init__(self,
-            sa_neighbourhood: SaNeighbourhood,
+            sa_neighborhood: SaNeighborhood,
             sa_temperature: SaTemperature,
             finish_control: FinishControl, 
             problem: Problem, 
@@ -66,7 +66,7 @@ class SaOptimizer(SingleSolutionMetaheuristic):
         Create new instance of class :class:`~uo.algorithm.metaheuristic.simulated_annealing.SaOptimizer`. 
         That instance implements :ref:`SA<Algorithm_Simulated_Annealing>` algorithm. 
 
-        :param `SaNeighbourhood` sa_neighbourhood: neighbourhood structure for generating neighbors
+        :param `SaNeighborhood` sa_neighborhood: neighborhood structure for generating neighbors
         :param `SaTemperature` sa_temperature: placeholder for temperature method, specific for simulated annealing
         :param `FinishControl` finish_control: structure that control finish criteria for metaheuristic execution
         :param int random_seed: random seed for metaheuristic execution
@@ -85,11 +85,11 @@ class SaOptimizer(SingleSolutionMetaheuristic):
                 solution_template=solution_template)
         if not isinstance(sa_temperature, SaTemperature):
             raise TypeError('Parameter \'sa_temperature\' must be \'SaTemperature\'.')
-        if not isinstance(sa_neighbourhood, SaNeighbourhood):
-            raise TypeError('Parameter \'sa_neighbourhood\' must be \'SaNeighbourhood\'.')
+        if not isinstance(sa_neighborhood, SaNeighborhood):
+            raise TypeError('Parameter \'sa_neighborhood\' must be \'SaNeighborhood\'.')
         
         self.__sa_temperature: SaTemperature = sa_temperature
-        self.__sa_neighbourhood: SaNeighbourhood = sa_neighbourhood
+        self.__sa_neighborhood: SaNeighborhood = sa_neighborhood
 
     @classmethod
     def from_construction_tuple(cls, construction_tuple: SaOptimizerConstructionParameters):
@@ -99,7 +99,7 @@ class SaOptimizer(SingleSolutionMetaheuristic):
         :param `SaOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
         """
         return cls(
-            construction_tuple.sa_neighbourhood,
+            construction_tuple.sa_neighborhood,
             construction_tuple.sa_temperature,
             construction_tuple.finish_control,
             construction_tuple.problem,
@@ -129,7 +129,7 @@ class SaOptimizer(SingleSolutionMetaheuristic):
         self.iteration += 1
 
         # Generate a new feasible neighbor solution
-        neighbor_solution = self.__sa_neighbourhood.generate_neighbor(self.current_solution, self.problem, optimizer=self)
+        neighbor_solution = self.__sa_neighborhood.generate_neighbor(self.current_solution, self.problem, optimizer=self)
 
         # Compare solutions
         delta = neighbor_solution.value - self.current_solution.value
@@ -167,7 +167,7 @@ class SaOptimizer(SingleSolutionMetaheuristic):
         s += '__sa_temperature=' + str(self.__sa_temperature) + delimiter
         for _ in range(0, indentation):
             s += indentation_symbol  
-        s += '__sa_neighbourhood=' + str(self.__sa_neighbourhood) + delimiter
+        s += '__sa_neighborhood=' + str(self.__sa_neighborhood) + delimiter
         for _ in range(0, indentation):
             s += indentation_symbol  
         s += group_end 

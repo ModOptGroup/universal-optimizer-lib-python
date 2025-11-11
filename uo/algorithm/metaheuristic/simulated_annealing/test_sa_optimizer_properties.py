@@ -5,7 +5,7 @@ from uo.problem.problem import Problem
 from uo.algorithm.output_control import OutputControl
 from uo.algorithm.metaheuristic.finish_control import FinishControl
 from uo.algorithm.metaheuristic.simulated_annealing.sa_optimizer import SaOptimizer
-from uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood import SaNeighbourhood
+from uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood import SaNeighborhood
 from uo.algorithm.metaheuristic.simulated_annealing.sa_temperature import SaTemperature
 from uo.solution.solution_void_representation_int import SolutionVoidInt
 
@@ -25,8 +25,8 @@ class TestSaOptimizerProperties(unittest.TestCase):
         type(self.problem_mock).dimension = mocker.PropertyMock(return_value=42)
         self.problem_mock.copy = mocker.Mock(return_value=self.problem_mock)
 
-        self.sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-        type(self.sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+        self.sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+        type(self.sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
         self.sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
         type(self.sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
 
@@ -42,7 +42,7 @@ class TestSaOptimizerProperties(unittest.TestCase):
         self.random_seed = 42
 
         self.sa_optimizer = SaOptimizer(
-            sa_neighbourhood=self.sa_neighbourhood_stub,
+            sa_neighborhood=self.sa_neighborhood_stub,
             sa_temperature=self.sa_temperature_stub,
             finish_control=self.finish_control_mock,
             problem=self.problem_mock,
@@ -81,12 +81,12 @@ class TestSaOptimizerProperties(unittest.TestCase):
     def test_create_with_invalid_problem_type_should_raise_value_exception_with_proper_message(self):
         with self.assertRaises(TypeError) as context:
             problem = "invalid"
-            sa_neighbourhood_stub = mocker.MagicMock(spec=SaNeighbourhood)
-            type(sa_neighbourhood_stub).copy = mocker.CallableMixin(spec="return self")
+            sa_neighborhood_stub = mocker.MagicMock(spec=SaNeighborhood)
+            type(sa_neighborhood_stub).copy = mocker.CallableMixin(spec="return self")
             sa_temperature_stub = mocker.MagicMock(spec=SaTemperature)
             type(sa_temperature_stub).copy = mocker.CallableMixin(spec="return self")
             sa_optimizer = SaOptimizer(
-                sa_neighbourhood=sa_neighbourhood_stub,
+                sa_neighborhood=sa_neighborhood_stub,
                 sa_temperature=sa_temperature_stub,
                 finish_control=self.finish_control_mock,
                 problem=problem,

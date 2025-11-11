@@ -1,18 +1,18 @@
 """
-The :mod:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood_bit_array` contains 
-class :class:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood_bit_array.SaNeighbourhoodBitArray`, 
-that represents Simulated Annealing neighbourhood support for bit array-encoded solutions.
+The :mod:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood_bit_array` contains 
+class :class:`~uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood_bit_array.SaNeighborhoodBitArray`, 
+that represents Simulated Annealing neighborhood support for bit array-encoded solutions.
 """
 
 import random
 from copy import deepcopy
-from uo.algorithm.metaheuristic.simulated_annealing.sa_neighbourhood import SaNeighbourhood
+from uo.algorithm.metaheuristic.simulated_annealing.sa_neighborhood import SaNeighborhood
 from uo.solution.solution import Solution
 from uo.problem.problem import Problem
 
-class SaNeighbourhoodBitArray(SaNeighbourhood):
+class SaNeighborhoodBitArray(SaNeighborhood):
     """
-    Neighbourhood structure for bit array solutions for Simulated Annealing.
+    Neighborhood structure for bit array solutions for Simulated Annealing.
     Generates a neighbor by flipping k random bits in the bit array representation,
     similar to VNS shaking.
     """
@@ -72,9 +72,9 @@ class SaNeighbourhoodBitArray(SaNeighbourhood):
     def string_rep(self, delimiter: str, indentation: int = 0, indentation_symbol: str = '', group_start: str = '{',
                   group_end: str = '}') -> str:
         """
-        String representation of the SA neighbourhood instance.
+        String representation of the SA neighborhood instance.
         """
-        return f'BitArraySaNeighbourhood{group_start}dimension={self.dimension}{delimiter}k={self.k}{group_end}'
+        return f'BitArraySaNeighborhood{group_start}dimension={self.dimension}{delimiter}k={self.k}{group_end}'
 
     def __str__(self) -> str:
         return self.string_rep('|')
