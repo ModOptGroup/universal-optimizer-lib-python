@@ -1,6 +1,5 @@
 import unittest
 import numpy as np
-import matplotlib.pyplot as plt
 
 from uo.algorithm.metaheuristic.maml_metaheuristic.maml_metaheuristic import MAMLMetaheuristic
 
