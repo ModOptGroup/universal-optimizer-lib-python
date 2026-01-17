@@ -91,6 +91,24 @@ class SaOptimizer(SingleSolutionMetaheuristic):
         self.__sa_temperature: SaTemperature = sa_temperature
         self.__sa_neighborhood: SaNeighborhood = sa_neighborhood
 
+    def copy(self):
+        """
+        Copy the current object
+
+        :return:  new instance with the same properties
+        :rtype: :class:`SingleSolutionMetaheuristic`
+        """
+        return SaOptimizer(
+            sa_neighborhood=self.__sa_neighborhood,
+            sa_temperature=self.__sa_temperature,
+            finish_control=self.finish_control,
+            problem=self.problem,
+            solution_template=self.solution_template,
+            output_control=self.output_control,
+            random_seed=self.random_seed,
+            additional_statistics_control=self.additional_statistics_control
+        )
+        
     @classmethod
     def from_construction_tuple(cls, construction_tuple: SaOptimizerConstructionParameters):
         """
