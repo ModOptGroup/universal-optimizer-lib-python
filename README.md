@@ -1,6 +1,6 @@
 # Universal optimizer - Optimization algorithms library
 
-Library `Universal optimizer` contains various optimization methods. Library is developed in `Python` programming language ver. 3.11, using `poetry` tool for project management, `unittest`  library for unit testing and `Sphinx` for documentation generation.
+Library `Universal optimizer` contains various optimization methods. Library is developed in `Python` programming language ver. 3.13, using `poetry` tool for project management, `unittest`  library for unit testing and `Sphinx` for documentation generation.
 
 ---
 

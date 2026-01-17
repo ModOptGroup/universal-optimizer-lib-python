@@ -1,20 +1,19 @@
 [tool.poetry]
-name = "universal-optimizer-lib"
-version = "0.2.0"
+name = "uo"
+version = "0.3.0"
 description = "Universal Optimizer Library"
 authors = ["Vladimir Filipovic <vladofilipovic@hotmail.com>"]
 license = "Apache 2.0"
 readme = "README.md"
-packages = [{include = "uo"},]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 pathlib = "^1.0.1"
 bitstring = "^4.1.1"
-linopy = "0.3.0"
 coverage = "^7.4.0"
 networkx = "^3.3"
 rdkit = "^2024.3.2"
+highspy = "^1.12.0"
 
 [tool.poetry.group.docs] 
 optional = true
