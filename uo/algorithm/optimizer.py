@@ -26,7 +26,6 @@ class Optimizer(metaclass=ABCMeta):
     This class describes Optimizer
     """
 
-    @abstractmethod
     def __init__(self, 
                 problem:Problem, 
                 name:str, 
@@ -243,7 +242,7 @@ class Optimizer(metaclass=ABCMeta):
         :param str step_name: name of the step when data should be written to output - have to be one of the following values: 'after_algorithm', 'before_algorithm', 'after_iteration', 'before_iteration', 'after_evaluation', 'before_evaluation', 'after_step_in_iteration', 'before_step_in_iteration'
         :param str step_name_value: what should be written to the output instead of step_name
         """            
-        if self.output_control is None:
+        if self.output_control is None or self.output_control.output_file is None:
             return
         output:'TextIOWrapper' = self.output_control.output_file
         should_write:bool = False

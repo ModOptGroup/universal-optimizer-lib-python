@@ -55,15 +55,15 @@ class Solution(Generic[R_co,A_co], metaclass=ABCMeta):
         :param int distance_calculation_cache_max_size: maximum size of the cache used for distance calculation - 0 if 
         size is unlimited
         """
-        if not isinstance(random_seed, Optional[int]):
+        if random_seed is not None and not isinstance(random_seed, Optional[int]):
                 raise TypeError('Parameter \'random_seed\' must be \'int\' or \'None\'.')        
-        if not isinstance(objective_value, Optional[float|int]):
+        if objective_value is not None and not isinstance(objective_value, Optional[float|int]):
                 raise TypeError('Parameter \'objective_value\' must be \'float\' or \'int\' or \'None\'.')        
-        if not isinstance(objective_values, Optional[list]) and not isinstance(objective_values, Optional[tuple]):
+        if objective_values is not None and not isinstance(objective_values, Optional[list]) and not isinstance(objective_values, Optional[tuple]):
                 raise TypeError('Parameter \'objective_values\' must be \'lost[float]\' or \'tuple[float]\' or \'None\'.')        
-        if not isinstance(fitness_value, Optional[float|int]):
+        if fitness_value is not None and not isinstance(fitness_value, Optional[float|int]):
                 raise TypeError('Parameter \'fitness_value\' must be \'float\' or \'int\' or \'None\'.')        
-        if not isinstance(fitness_values, Optional[list]) and not isinstance(fitness_values, Optional[tuple]):
+        if fitness_values is not None and not isinstance(fitness_values, Optional[list]) and not isinstance(fitness_values, Optional[tuple]):
                 raise TypeError('Parameter \'fitness_values\' must be \'lost[float]\' or \'tuple[float]\' or \'None\'.')        
         if not isinstance(is_feasible, bool):
                 raise TypeError('Parameter \'is_feasible\' must be \'bool\'.')        
