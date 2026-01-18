@@ -51,8 +51,6 @@ class GaOptimizerGenerationalConstructionParameters:
         random_seed: Optional[int] = None
         additional_statistics_control: Optional[AdditionalStatisticsControl] = None
 
-
-
 class GaOptimizerGenerational(GaOptimizer):
     """
     Instance of the class :class:`~uo.algorithm.metaheuristic.genetic_algorithm.GaOptimizerGenerational` encapsulate 
@@ -193,6 +191,8 @@ class GaOptimizerGenerational(GaOptimizer):
         new_population:list[Solution] = []
         for _ in range(self.population_size):
             new_population.append(self.solution_template.copy())
+        if l_lim > 0:
+            self.current_population.sort(key=lambda x: x.fitness_value, reverse=True)
         for i in range(l_lim):
             new_population[i] = self.current_population[i]
         indices_for_selection:list[int] = [sel_ind for sel_ind in range(l_lim, self.population_size)]

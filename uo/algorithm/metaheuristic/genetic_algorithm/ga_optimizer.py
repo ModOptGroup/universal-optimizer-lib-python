@@ -200,7 +200,7 @@ class GaOptimizer(PopulationBasedMetaheuristic, metaclass=ABCMeta):
         """
         for i in range(self.population_size):
             self.current_population[i].init_random(self.problem)
-            self.evaluation = 1
+            self.evaluation += 1
             self.current_population[i].evaluate(self.problem)
         self.best_solution = max(self.__current_population, key=lambda individual: individual.fitness_value)
         if self.elite_count is None:
